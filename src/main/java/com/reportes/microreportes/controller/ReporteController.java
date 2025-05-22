@@ -28,4 +28,5 @@ public class ReporteController {
     public ResponseEntity<String> obtenerReporteCursosCantidad() {
         return ResponseEntity.ok(reporteService.reporteCursosCantidad());
     }
+
 }

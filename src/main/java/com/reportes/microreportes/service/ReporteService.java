@@ -15,25 +15,33 @@ public class ReporteService {
     private RestTemplate restTemplate;
 
     public String reporteCurso() {
-        String urlCurso = "http://localhost:8080/cursos";
+        String urlCurso = "http://gestor-cursos:8080/cursos";
         String cursoData = restTemplate.getForObject(urlCurso, String.class);
         return cursoData;
     }
 
     public String reporteCursoId(String idCurso) {
-        String urlCurso = "http://localhost:8080/cursos/" + idCurso;
+        String urlCurso = "http://gestor-cursos:8080/cursos/" + idCurso;
         String cursoData = restTemplate.getForObject(urlCurso, String.class);
         return cursoData;
     }
 
     public String reporteCursosCantidad() {
-        String urlCurso = "http://localhost:8080/cursos";
+        String urlCurso = "http://gestor-cursos:8080/cursos";
         String cursoData = restTemplate.getForObject(urlCurso, String.class);
 
-        String urlConteo ="http://localhost:8080/cursos/cantidad";
+        String urlConteo ="http://gestor-cursos:8080/cursos/cantidad";
         String cantidad = restTemplate.getForObject(urlConteo, String.class);
 
         return "Cursos: " + cursoData + "\nCantidad de cursos: " + cantidad;
+    }
+
+    public String reporteEstudianteCorreoCantidad(String correo){
+        String urlCorreo = "http://localhost:8082/estudiantes/traer/{correo}";
+        String correoData = restTemplate.getForObject(urlCorreo, String.class);
+        String urlConteo = "http://localhost:8082/estudiantes/cantidad";
+        String cantidad = restTemplate.getForObject(urlConteo, String.class);
+        return "Estudiante: " + correoData + "\nCantidad de estudiantes: " + cantidad;
     }
 
 }
