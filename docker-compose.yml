@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  gestor-cursos:
+    build: ./microGestorCursos
+    container_name: gestor-cursos
+    ports:
+      - "8080:8080"
+
+  micro-reporte:
+    build: ./microReportes
+    container_name: micro-reporte
+    ports:
+      - "8081:8081"
+    depends_on:
+      - gestor-cursos
