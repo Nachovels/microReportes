@@ -65,9 +65,9 @@ public class ReporteService {
     //Gestor de usuarios
     public ResponseEntity<String> reporteEstudiantesCantidad(){
         try{
-            String urlEstudiantes = "http://micro-usuarios:8082/administrador/Estudiantes";
+            String urlEstudiantes = "http://gestor-usuarios:8082/administrador/Estudiantes";
             String estudiantesData = restTemplate.getForObject(urlEstudiantes, String.class);
-            String urlConteo = "http://micro-usuarios:8082/administrador/contar-estudiantes";
+            String urlConteo = "http://gestor-usuarios:8082/administrador/contar-estudiantes";
             String cantidad = restTemplate.getForObject(urlConteo, String.class);
             
             if(estudiantesData != null && !estudiantesData.isEmpty()) {
