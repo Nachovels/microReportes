@@ -11,9 +11,9 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI(){
         return new OpenAPI().info(new Info()
-        .title("Gestor de cursos API")
+        .title("Microservicio de reportes por José Velásquez")
         .version("1.0")
-        .description("Micro servicio de gestión de cursos para proyecto semestral en Spring Boot")
+        .description("Micro servicio generación de reportes para proyecto semestral en Spring Boot")
         );
     }
 }
