@@ -16,17 +16,17 @@ public class ReporteController {
 
     @GetMapping("/reporte/cursos")
     public ResponseEntity<String> obtenerReporteCursos() {
-        return ResponseEntity.ok(reporteService.reporteCurso());
+        return reporteService.reporteCurso();
     }
 
     @GetMapping("/reporte/cursos/{idCurso}")
     public ResponseEntity<String> obtenerReporteCursoPorId(@PathVariable String idCurso) {
-        return ResponseEntity.ok(reporteService.reporteCursoId(idCurso));
+        return reporteService.reporteCursoId(idCurso);
     }
 
     @GetMapping("/reporte/cursos/cantidad")
     public ResponseEntity<String> obtenerReporteCursosCantidad() {
-        return ResponseEntity.ok(reporteService.reporteCursosCantidad());
+        return reporteService.reporteCursosCantidad();
     }
 
 }

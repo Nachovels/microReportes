@@ -1,6 +1,7 @@
 package com.reportes.microreportes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,27 +15,53 @@ public class ReporteService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public String reporteCurso() {
-        String urlCurso = "http://gestor-cursos:8080/cursos";
+
+    public ResponseEntity<String> reporteCurso() {
+        try{String urlCurso = "http://gestor-cursos:8080/cursos";
         String cursoData = restTemplate.getForObject(urlCurso, String.class);
-        return cursoData;
+        if (cursoData == null || cursoData.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(cursoData);
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body("Error al obtener los datos del curso: " + e.getMessage());
+    }
+        
     }
 
-    public String reporteCursoId(String idCurso) {
-        String urlCurso = "http://gestor-cursos:8080/cursos/" + idCurso;
-        String cursoData = restTemplate.getForObject(urlCurso, String.class);
-        return cursoData;
+    public ResponseEntity<String> reporteCursoId(String idCurso) {
+        try {
+            String urlCurso = "http://gestor-cursos:8080/cursos/" + idCurso;
+            String cursoData = restTemplate.getForObject(urlCurso, String.class);
+            if (cursoData == null || cursoData.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(cursoData);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Error al obtener los datos del curso con ID " + idCurso + ": " + e.getMessage());
+        }
     }
 
-    public String reporteCursosCantidad() {
-        String urlCurso = "http://gestor-cursos:8080/cursos";
-        String cursoData = restTemplate.getForObject(urlCurso, String.class);
+    public ResponseEntity<String> reporteCursosCantidad() {
+        try{
+            String urlCurso = "http://gestor-cursos:8080/cursos";
+            String cursoData = restTemplate.getForObject(urlCurso, String.class);
 
-        String urlConteo ="http://gestor-cursos:8080/cursos/cantidad";
-        String cantidad = restTemplate.getForObject(urlConteo, String.class);
+            String urlConteo ="http://gestor-cursos:8080/cursos/cantidad";
+            String cantidad = restTemplate.getForObject(urlConteo, String.class);
 
-        return "Cursos: " + cursoData + "\nCantidad de cursos: " + cantidad;
+            if (cursoData != null && !cursoData.isEmpty()) {
+                return ResponseEntity.ok("Datos de cursos: " + cursoData + "\nCantidad de cursos: " + cantidad);
+            } else {
+                return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND).body("Cantidad de cursos: " + cantidad);
+                
+            }}
+        catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al obtener los datos de los cursos" + e.getMessage());
+        }
     }
+
+
 
     public String reporteEstudianteCorreoCantidad(String correo){
         String urlCorreo = "http://localhost:8082/estudiantes/traer/{correo}";
