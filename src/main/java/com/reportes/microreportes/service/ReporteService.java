@@ -15,7 +15,7 @@ public class ReporteService {
     @Autowired
     private RestTemplate restTemplate;
 
-
+    //Gestor de cursos
     public ResponseEntity<String> reporteCurso() {
         try{String urlCurso = "http://gestor-cursos:8080/cursos";
         String cursoData = restTemplate.getForObject(urlCurso, String.class);
@@ -62,13 +62,67 @@ public class ReporteService {
     }
 
 
+    //Gestor de usuarios
+    public ResponseEntity<String> reporteEstudiantesCantidad(){
+        try{
+            String urlEstudiantes = "http://micro-usuarios:8082/administrador/Estudiantes";
+            String estudiantesData = restTemplate.getForObject(urlEstudiantes, String.class);
+            String urlConteo = "http://micro-usuarios:8082/administrador/contar-estudiantes";
+            String cantidad = restTemplate.getForObject(urlConteo, String.class);
+            
+            if(estudiantesData != null && !estudiantesData.isEmpty()) {
+                return ResponseEntity.ok("Estudiantes: " + estudiantesData + "\nCantidad de estudiantes: " + cantidad);
+            } else {
+                return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND).body("Cantidad de estudiantes: " + cantidad);
+            }
+    }
+        catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al obtener los datos de los estudiantes: " + e.getMessage());
+        }
+    }
 
-    public String reporteEstudianteCorreoCantidad(String correo){
-        String urlCorreo = "http://localhost:8082/estudiantes/traer/{correo}";
-        String correoData = restTemplate.getForObject(urlCorreo, String.class);
-        String urlConteo = "http://localhost:8082/estudiantes/cantidad";
-        String cantidad = restTemplate.getForObject(urlConteo, String.class);
-        return "Estudiante: " + correoData + "\nCantidad de estudiantes: " + cantidad;
+    public ResponseEntity<String> reporteEstudiantesCorreo(String correo) {
+        try {
+            String urlEstudiantes = "http://micro-usuarios:8082/estudiante/traer/" + correo;
+            String estudiantesData = restTemplate.getForObject(urlEstudiantes, String.class);
+            if (estudiantesData == null || estudiantesData.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(estudiantesData);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Error al obtener los datos del estudiante con correo " + correo + ": " + e.getMessage());
+        }
+    }
+
+
+    public ResponseEntity<String> reporteInstructoresCantidad() {
+        try {
+            String urlInstructores = "http://micro-usuarios:8082/administrador/Instructores";
+            String instructoresData = restTemplate.getForObject(urlInstructores, String.class);
+            String urlConteo = "http://micro-usuarios:8082/administrador/contar-instructores";
+            String cantidad = restTemplate.getForObject(urlConteo, String.class);
+            
+            if (instructoresData != null && !instructoresData.isEmpty()) {
+                return ResponseEntity.ok("Instructores: " + instructoresData + "\nCantidad de instructores: " + cantidad);
+            } else {
+                return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND).body("Cantidad de instructores: " + cantidad);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al obtener los datos de los instructores: " + e.getMessage());
+        }
+    }
+
+    public ResponseEntity<String> reporteInstructoresCorreo(String correo) {
+        try {
+            String urlInstructores = "http://micro-usuarios:8082/instructor/traer/" + correo;
+            String instructoresData = restTemplate.getForObject(urlInstructores, String.class);
+            if (instructoresData == null || instructoresData.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(instructoresData);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Error al obtener los datos del instructor con correo " + correo + ": " + e.getMessage());
+        }
     }
 
 }

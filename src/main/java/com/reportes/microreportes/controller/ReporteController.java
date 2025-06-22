@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reportes.microreportes.service.ReporteService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class ReporteController {
@@ -28,5 +30,27 @@ public class ReporteController {
     public ResponseEntity<String> obtenerReporteCursosCantidad() {
         return reporteService.reporteCursosCantidad();
     }
+
+    //Usuarios
+    @GetMapping("/reporte/estudiantes/cantidad")
+    public ResponseEntity<String> obtenerReporteEstudiantesCantidad(){
+        return reporteService.reporteEstudiantesCantidad();
+    }
+
+    @GetMapping("/reporte/estudiantes/{correo}")
+    public ResponseEntity<String> obtenerReporteEstudiantePorCorreo(@PathVariable String correo) {
+        return reporteService.reporteEstudiantesCorreo(correo);
+    }
+    
+    @GetMapping("/reporte/instructores/cantidad")
+    public ResponseEntity<String> obtenerReporteInstructoresCantidad() {
+        return reporteService.reporteInstructoresCantidad();
+    }
+
+    @GetMapping("/reporte/instructores/{correo}")
+    public ResponseEntity<String> obtenerReporteInstructorPorCorreo(@PathVariable String correo) {
+        return reporteService.reporteInstructoresCorreo(correo);
+    }
+    
 
 }
