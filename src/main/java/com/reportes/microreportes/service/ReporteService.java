@@ -29,7 +29,7 @@ public class ReporteService {
     @Autowired
     private RestTemplate restTemplate;
 
-    //Gestor de cursos
+
     public ResponseEntity<String> reporteCurso() {
         try{String urlCurso = "http://gestor-cursos:8080/cursos";
         String cursoData = restTemplate.getForObject(urlCurso, String.class);
@@ -76,7 +76,6 @@ public class ReporteService {
     }
 
 
-    //Gestor de usuarios
     public ResponseEntity<String> reporteEstudiantesCantidad(){
         try{
             String urlEstudiantes = "http://micro-usuarios:8082/administrador/Estudiantes";
@@ -166,5 +165,5 @@ public class ReporteService {
     );
 
     return new ReporteEstudianteDTO(estudiante.getNombre(), response.getBody());
-}
+    }
 }
