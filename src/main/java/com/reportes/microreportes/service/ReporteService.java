@@ -148,7 +148,7 @@ public class ReporteService {
 
     List<String> idsCursos = estudiante.getCursoInscrito();
     if (idsCursos == null || idsCursos.isEmpty()) {
-        return new ReporteEstudianteDTO(estudiante.getNombre(), List.of());
+        return new ReporteEstudianteDTO(estudiante.getNombre(), estudiante.getApellido(), List.of());
     }
 
     
@@ -164,6 +164,6 @@ public class ReporteService {
         new ParameterizedTypeReference<List<Curso>>() {}
     );
 
-    return new ReporteEstudianteDTO(estudiante.getNombre(), response.getBody());
+    return new ReporteEstudianteDTO(estudiante.getNombre(), estudiante.getApellido(), response.getBody());
     }
 }

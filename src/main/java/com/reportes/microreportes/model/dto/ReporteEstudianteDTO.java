@@ -13,5 +13,6 @@ import com.reportes.microreportes.model.Curso;
 @NoArgsConstructor
 public class ReporteEstudianteDTO {
     private String nombreEstudiante;
+    private String apellidoEstudiante;
     private List<Curso> cursos;
 }

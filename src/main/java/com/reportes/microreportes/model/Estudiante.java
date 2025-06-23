@@ -12,6 +12,7 @@ import java.util.List;
 public class Estudiante {
     private String id;
     private String nombre;
+    private String apellido;
     private String correo;
     private List<String> cursoInscrito;
 }

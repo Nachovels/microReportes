@@ -34,7 +34,7 @@ public class ReporteTest {
     public void reporteCursoObtieneDatos() {
         String cursosJson = "[" +
             "{\"idCurso\":\"1\", \"nombreCurso\":\"Curso A\", \"descripcion\":\"Desc A\", \"instructorAsignado\":\"Juan\"}," +
-            "{\"idCurso\":\"2\", \"nombreCurso\":\"Curso B\", \"descripcion\":\"Desc B\", \"instructorAsignado\":\"Maria\"}" +
+            "{\"idCurso\":\"2\", \"nombreCurso\":\"Curso B\", \"descripcion\":\"Desc B\", \"instructorAsignado\":\"Laura\"}" +
         "]";
 
         when(restTemplate.getForObject(anyString(), eq(String.class))).thenReturn(cursosJson);
@@ -179,7 +179,7 @@ public class ReporteTest {
 
     @Test
     public void reporteInstructoresCantidadObtieneDatos() {
-        String instructoresJson = "[{\"id\":\"1\", \"nombre\":\"Ana\"}]";
+        String instructoresJson = "[{\"id\":\"1\", \"nombre\":\"Laura\"}]";
         String cantidad = "1";
 
         when(restTemplate.getForObject("http://micro-usuarios:8082/administrador/Instructores", String.class))
@@ -213,7 +213,7 @@ public class ReporteTest {
     
     @Test
     public void reporteInstructoresCorreoObtieneDatos() {
-        String correo = "instructor@mail.com";
+        String correo = "jperez@mail.com";
         String instructorJson = "{\"id\":\"1\", \"nombre\":\"Instructor Test\"}";
 
         when(restTemplate.getForObject("http://micro-usuarios:8082/instructor/traer/" + correo, String.class))
@@ -227,7 +227,7 @@ public class ReporteTest {
 
     @Test
     public void reporteInstructoresCorreoNoObtieneDatos() {
-        String correo = "noexiste@mail.com";
+        String correo = "jperez@mail.com";
 
         when(restTemplate.getForObject("http://micro-usuarios:8082/instructor/traer/" + correo, String.class))
             .thenReturn(null);
