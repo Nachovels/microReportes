@@ -1,11 +1,25 @@
 package com.reportes.microreportes.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.reportes.microreportes.model.Curso;
+import com.reportes.microreportes.model.Estudiante;
+import com.reportes.microreportes.model.dto.ReporteEstudianteDTO;
 import com.reportes.microreportes.repository.ReporteRepository;
+
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
 
 @Service
 public class ReporteService {
@@ -125,4 +139,32 @@ public class ReporteService {
         }
     }
 
+    public ReporteEstudianteDTO obtenerReporte(String correo) {
+    Estudiante estudiante = restTemplate.getForObject(
+        "http://micro-usuarios:8082/estudiante/traer/" + correo,
+        Estudiante.class
+    );
+
+    System.out.println("IDs de cursos a buscar: " + estudiante.getCursoInscrito());
+
+    List<String> idsCursos = estudiante.getCursoInscrito();
+    if (idsCursos == null || idsCursos.isEmpty()) {
+        return new ReporteEstudianteDTO(estudiante.getNombre(), List.of());
+    }
+
+    
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+
+    HttpEntity<List<String>> request = new HttpEntity<>(idsCursos, headers);
+
+    ResponseEntity<List<Curso>> response = restTemplate.exchange(
+        "http://gestor-cursos:8080/cursos/lista",
+        HttpMethod.POST,
+        request,
+        new ParameterizedTypeReference<List<Curso>>() {}
+    );
+
+    return new ReporteEstudianteDTO(estudiante.getNombre(), response.getBody());
+}
 }
